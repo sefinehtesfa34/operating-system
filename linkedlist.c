@@ -7,12 +7,14 @@ struct Linkedlist{
 void printList(struct Linkedlist*);
 void push(struct Linkedlist**,int);
 void pop(struct Linkedlist**);
+void add(struct Linkedlist**,int,int);
 
 int main(int argc, char const *argv[])
 {  //define struct node
     struct Linkedlist*head=NULL;
     struct Linkedlist*second=NULL;
     struct Linkedlist*third=NULL;
+    int data;
     
     head=(struct Linkedlist*)malloc(sizeof(struct Linkedlist));
     second=(struct Linkedlist*)malloc(sizeof(struct Linkedlist));
@@ -24,8 +26,12 @@ int main(int argc, char const *argv[])
     head->next=second;
     second->next=third;
     third->next=NULL;
-    push(&head,1000);
+    
+    printf("push a node at the front of the linked list: \n");
+    scanf("%d",&data);
+    push(&head,data);
     pop(&head);
+    add(&head,2000,3);
     
     printList(head);
 
@@ -58,7 +64,18 @@ void pop(struct Linkedlist**temp){
     (newNode)->next=NULL;
 }
 
-
+void add(struct Linkedlist**head_refrernce,int data,int position){
+    struct Linkedlist*newNode=(struct Linkedlist*)malloc(sizeof(struct Linkedlist));
+    struct Linkedlist*temp=(*head_refrernce);
+    while (position>2){
+        position-=1;
+        temp=temp->next;
+    }
+    newNode->data=data;
+    newNode->next=temp->next;
+    temp->next=newNode;
+    
+}
 
 
 
