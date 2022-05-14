@@ -5,6 +5,8 @@ struct Linkedlist{
     struct Linkedlist*next;
 };
 void printList(struct Linkedlist*);
+void push(struct Linkedlist**,int);
+void pop(struct Linkedlist**);
 
 int main(int argc, char const *argv[])
 {  //define struct node
@@ -22,6 +24,8 @@ int main(int argc, char const *argv[])
     head->next=second;
     second->next=third;
     third->next=NULL;
+    push(&head,1000);
+    pop(&head);
     
     printList(head);
 
@@ -33,3 +37,55 @@ void printList(struct Linkedlist* node){
         node=node->next;
     }
 }
+
+void push(struct Linkedlist**temp,int data){
+    struct Linkedlist*newNode=(struct Linkedlist*)malloc(sizeof(struct Linkedlist));
+    newNode->data=data;
+    newNode->next=(*temp);
+    (*temp)=newNode;
+}
+
+void pop(struct Linkedlist**temp){
+    struct Linkedlist*newNode=(*temp);
+    
+    if ((newNode)->next==NULL){
+        (newNode)=NULL;
+    }
+    while((newNode)->next->next!=NULL){
+
+        (newNode)=(newNode)->next;
+    }
+    (newNode)->next=NULL;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
