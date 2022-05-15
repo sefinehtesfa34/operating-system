@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include <ctype.h>
 int main(int argc, char const *argv[])
 {
     int c;
@@ -7,8 +8,8 @@ int main(int argc, char const *argv[])
         if(c=='!'){
             break;
         }
-        else if(c>='a'&&c<='z'){
-            c+='A'-'a';
+        else if(islower(c)){
+            c=toupper(c);
             putchar(c);
         }
         else{
