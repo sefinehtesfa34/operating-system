@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "a.h"
+#include<stdio.h>
 #include<assert.h>
 #define BUCKET_COUNT 1024
 #define true 1
@@ -78,17 +79,35 @@ struct Binding* find(struct HashTable* table, const char* key){
     return NULL;
         
 }
-bool remove(struct HashTable* table, const char* key){
+bool remover(struct HashTable* table, const char* key){
     unsigned int hashValue=hash(key);
+    
     struct Binding*temp=table->buckets[hashValue];
     struct Binding*prev=NULL;
+
+    if(temp==NULL){
+        free(temp);
+        temp=NULL;
+        return false;
+    }
+
+    if(strcmp(temp->key,key)==0){
+        struct Binding *first = table->buckets[hashValue];
+        table->buckets[hashValue]=table->buckets[hashValue]->next;
+        free(first);
+
+        return true;
+    }
     while(temp!=NULL){
         prev=temp;
+        temp=temp->next;
+        
         if(strcmp(key,temp->key)==0){
             prev->next=temp->next;
+            free(temp);
+            temp=NULL;
             return true;
         }
-        temp=temp->next;
     }
     return false;
         
@@ -103,6 +122,17 @@ void delete_table(struct HashTable* table){
     
     free(table);
 }
+void printer(struct HashTable* table,const char*key){
+    unsigned int hashValue=hash(key);
+    struct Binding * node=table->buckets[hashValue];
+    while (node!=NULL)
+    {
+        printf("%d %d\n",node->value,hashValue);
+        node=node->next;
+    }
+    
+
+}
 
 int main(int argc, char const *argv[])
 {
@@ -111,10 +141,14 @@ struct HashTable* table = create();
 
     assert( find(table, "Test Key") == NULL);
     assert( add(table, "Test Key", 11) == true);
+    assert( add(table, "abc", 10) == true);
+    assert( add(table, "acb", 12) == true);
+    assert( add(table, "cba", 13) == true);
     assert( add(table, "Test Key", 11) == false);
     struct Binding* binding =  find(table, "Test Key");
     assert( binding != NULL &&  binding->value == 11);
-    assert(remove(table,"Test Key")==true);
+    assert(remover(table,"acb")==true);
+    printer(table,"abc");
     delete_table(table);
 
     return 0;
