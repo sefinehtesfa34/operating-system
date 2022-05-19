@@ -4,6 +4,7 @@ struct Linkedlist{
     int data;
     struct Linkedlist*next;
 };
+
 void printList(struct Linkedlist*);
 void push(struct Linkedlist**,int);
 void pop(struct Linkedlist**);
