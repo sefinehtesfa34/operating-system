@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdbool.h>
 #include "a.h"
-#include<stdio.h>
 #include<assert.h>
 #define BUCKET_COUNT 1024
 #define true 1
@@ -79,7 +78,7 @@ struct Binding* find(struct HashTable* table, const char* key){
     return NULL;
         
 }
-bool remover(struct HashTable* table, const char* key){
+bool remove(struct HashTable* table, const char* key){
     unsigned int hashValue=hash(key);
     
     struct Binding*temp=table->buckets[hashValue];
@@ -122,17 +121,6 @@ void delete_table(struct HashTable* table){
     
     free(table);
 }
-void printer(struct HashTable* table,const char*key){
-    unsigned int hashValue=hash(key);
-    struct Binding * node=table->buckets[hashValue];
-    while (node!=NULL)
-    {
-        printf("%d %d\n",node->value,hashValue);
-        node=node->next;
-    }
-    
-
-}
 
 int main(int argc, char const *argv[])
 {
@@ -147,8 +135,7 @@ struct HashTable* table = create();
     assert( add(table, "Test Key", 11) == false);
     struct Binding* binding =  find(table, "Test Key");
     assert( binding != NULL &&  binding->value == 11);
-    assert(remover(table,"acb")==true);
-    printer(table,"abc");
+    assert(remove(table,"acb")==true);
     delete_table(table);
 
     return 0;
